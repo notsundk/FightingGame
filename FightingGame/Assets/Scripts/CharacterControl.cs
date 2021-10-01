@@ -16,6 +16,8 @@ public class CharacterControl : MonoBehaviour
     [Tooltip("Player's Jumping Power")]
     [SerializeField] float jumpForce = 10f;
 
+    public bool onAttacking = false; // We will use this to check if our character is still attacking or not.
+
     private float horizontal;
     private bool isFacingRight = true;
     private PlayerInputActions playerInputActions;
@@ -23,13 +25,15 @@ public class CharacterControl : MonoBehaviour
 
     [Header("Other Stuff")]
     [SerializeField] Rigidbody2D playerPhysics;
+    public GameObject playerHitbox;
     [SerializeField] Transform groundCheck;
     [SerializeField] LayerMask groundLayer;
-    [SerializeField] Animator animator;
+    public Animator animator;
 
     private void Awake()
     {
         playerInputActions = new PlayerInputActions(); //Create new PlayerInputActions
+        playerHitbox.SetActive(false);
     }
 
     #region Set-up
@@ -38,11 +42,11 @@ public class CharacterControl : MonoBehaviour
         movement = playerInputActions.PlayerControls.VectorMovement;
         movement.Enable();
 
-        playerInputActions.PlayerControls.Jump.performed += DoJump;
-        playerInputActions.PlayerControls.Jump.Enable();
+        //playerInputActions.PlayerControls.Jump.performed += DoJump;
+        //playerInputActions.PlayerControls.Jump.Enable();
 
-        playerInputActions.PlayerControls.Crouch.performed += DoCrouch;
-        playerInputActions.PlayerControls.Crouch.Enable();
+        //playerInputActions.PlayerControls.Crouch.performed += DoCrouch;
+        //playerInputActions.PlayerControls.Crouch.Enable();
 
         //playerInputActions.PlayerControls.WalkLeft.performed += DoWalkLeft;
         //playerInputActions.PlayerControls.WalkLeft.Enable();
@@ -63,8 +67,8 @@ public class CharacterControl : MonoBehaviour
     private void OnDisable()
     {
         movement.Disable();
-        playerInputActions.PlayerControls.Jump.Disable();
-        playerInputActions.PlayerControls.Crouch.Disable();
+        //playerInputActions.PlayerControls.Jump.Disable();
+        //playerInputActions.PlayerControls.Crouch.Disable();
         //playerInputActions.PlayerControls.WalkLeft.Disable();
         //playerInputActions.PlayerControls.WalkRight.Disable();
         playerInputActions.PlayerControls.AttackA.Disable();
@@ -76,7 +80,7 @@ public class CharacterControl : MonoBehaviour
     {
         playerPhysics.velocity = new Vector2(horizontal * moveSpeed, playerPhysics.velocity.y);
 
-        if(!isFacingRight && horizontal > 0f) // Flip Character Sprite
+        if (!isFacingRight && horizontal > 0f) // Flip Character Sprite
         {
             Flip();
         }
@@ -85,25 +89,15 @@ public class CharacterControl : MonoBehaviour
             Flip();
         }
     }
-    private bool IsGrounded()
-    {
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
-    }
-
-    private void Flip()
-    {
-        isFacingRight = !isFacingRight;
-        Vector3 localScale = transform.localScale;
-        localScale.x *= -1f;
-        transform.localScale = localScale;
-    }
-
+    // -----------------------------------------------------------------------------------------------------//
+    // ----------------------------------------------------- MOVEMENT --------------------------------------//
     #region Movement Methods
     public void VectorMovement(InputAction.CallbackContext context)
     {
         Debug.Log("Start Running");
         horizontal = context.ReadValue<Vector2>().x; //Read Value
         animator.Play("Run");
+        onAttacking = false;
 
         if (context.canceled)
         {
@@ -112,42 +106,70 @@ public class CharacterControl : MonoBehaviour
         }
     }
 
-    public void DoJump(InputAction.CallbackContext context)
+    //private bool IsGrounded() // Ground Check
+    //{
+    //    return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    //}
+
+    private void Flip() // Flip Character Sprite
     {
-        Debug.Log("Jump");
-        if (context.performed && IsGrounded()) // Jump Button Pressed & is Grounded
-        {
-            playerPhysics.velocity = new Vector2(playerPhysics.velocity.x, jumpForce);
-            animator.Play("Jump");
-        }
-        if (context.canceled && playerPhysics.velocity.y > 0f) // Jump Button Released
-        {
-            playerPhysics.velocity = new Vector2(playerPhysics.velocity.x, playerPhysics.velocity.y * 0.5f);
-        }
+        isFacingRight = !isFacingRight;
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale = localScale;
     }
 
-    public void DoCrouch(InputAction.CallbackContext context)
-    {
-        Debug.Log("Crouch");
-        // No Crouching in the game yet
-    }
+    //public void DoJump(InputAction.CallbackContext context)
+    //{
+    //    Debug.Log("Jump");
+    //    if (context.performed && IsGrounded()) // Jump Button Pressed & is Grounded
+    //    {
+    //        playerPhysics.velocity = new Vector2(playerPhysics.velocity.x, jumpForce);
+    //        animator.Play("Jump");
+    //    }
+    //    if (context.canceled && playerPhysics.velocity.y > 0f) // Jump Button Released
+    //    {
+    //        playerPhysics.velocity = new Vector2(playerPhysics.velocity.x, playerPhysics.velocity.y * 0.5f);
+    //    }
+    //}
+
+    //public void DoCrouch(InputAction.CallbackContext context)
+    //{
+    //    Debug.Log("Crouch");
+    //    // No Crouching in the game.
+    //}
+
     #endregion
 
+    // -----------------------------------------------------------------------------------------------------//
+    // ----------------------------------------------------- ATTACK ----------------------------------------//
     #region Attack Methods
     public void DoAttackA(InputAction.CallbackContext context)
     {
-        Debug.Log("Attack A");
-        animator.Play("Attack1");
+        if (onAttacking == false)
+        {
+            Debug.Log("Do Attack A");
+            onAttacking = true;
+            animator.Play("Attack1");
+        }
     }
     public void DoAttackB(InputAction.CallbackContext context)
     {
-        Debug.Log("Attack B");
-        animator.Play("Attack2");
+        if (onAttacking == false)
+        {
+            Debug.Log("Do Attack B");
+            onAttacking = true;
+            animator.Play("Attack2");
+        }
     }
     public void DoAttackC(InputAction.CallbackContext context)
     {
-        Debug.Log("Attack C");
-        animator.Play("Attack3");
+        if (onAttacking == false)
+        {
+            Debug.Log("Do Attack C");
+            onAttacking = true;
+            animator.Play("Attack3");
+        }
     }
     #endregion
 }

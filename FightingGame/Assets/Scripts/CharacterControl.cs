@@ -11,7 +11,7 @@ public class CharacterControl : MonoBehaviour
 
     [Header("Other Stuff")]
     [SerializeField] Rigidbody2D playerPhysics;
-    private float horizontal = 0f;
+    private float horizontal;
     public GameObject playerHitbox;
     public Animator animator;
     public PlayerInputActions playerInputActions;
@@ -51,15 +51,20 @@ public class CharacterControl : MonoBehaviour
     private void Update()
     {
         HorizontalMovement();
+        Debug.Log("Horizontal Value: " + horizontal);
     }
 
     // -----------------------------------------------------------------------------------------------------//
     // ----------------------------------------------------- MOVEMENT --------------------------------------//
+    private void HorizontalMovement()
+    {
+        playerPhysics.velocity = new Vector2(horizontal * moveSpeed, playerPhysics.velocity.y);
+    }
+
     public void VectorMovement(InputAction.CallbackContext context)
     {
         Debug.Log("Start Running");
         horizontal = context.ReadValue<Vector2>().x; //Read Value
-        Debug.Log("Horizontal Value: " + horizontal);
         animator.Play("Run");
         onAttacking = false;
 
@@ -68,11 +73,6 @@ public class CharacterControl : MonoBehaviour
             Debug.Log("Stop Running");
             animator.Play("Idle");
         }
-    }
-
-    private void HorizontalMovement()
-    {
-        playerPhysics.velocity = new Vector2(horizontal * moveSpeed, playerPhysics.velocity.y);
     }
 
     // -----------------------------------------------------------------------------------------------------//

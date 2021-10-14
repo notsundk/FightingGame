@@ -1988,7 +1988,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b2b61bbdc8ddbe949a3aef5a2b846332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  c: {fileID: 806296151}
+  CharacterControl: {fileID: 806296151}
 --- !u!1 &425068102
 GameObject:
   m_ObjectHideFlags: 0
@@ -2245,7 +2245,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 689985346}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -2399,11 +2399,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806296145}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.03, y: 0.95, z: 0}
+  m_LocalPosition: {x: -4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 814135844}
-  - {fileID: 1331855833}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2490,34 +2489,6 @@ MonoBehaviour:
     m_ActionId: 205c071f-16d8-4b8d-8b56-fd7d4b66ba87
     m_ActionName: PlayerControls/Attack
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 806296151}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: 5c5219fe-7c2b-4bdb-a7d8-c894d0ef71ab
-    m_ActionName: PlayerControls/Jump[/Keyboard/w,/XInputControllerWindows/dpad/up]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: c5561f04-e95f-425e-8ee5-993f2c140f1b
-    m_ActionName: PlayerControls/Crouch[/Keyboard/s,/XInputControllerWindows/dpad/down]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: fa26da47-e24e-4d04-9279-09a23b18dd80
-    m_ActionName: PlayerControls/Walk(Left)[/Keyboard/a,/XInputControllerWindows/dpad/left]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: 06b557f7-d2bc-4e10-8d74-469fa325663c
-    m_ActionName: PlayerControls/Walk(Right)[/Keyboard/d,/XInputControllerWindows/dpad/right]
-  - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 5745cf94-5aa2-4948-83ab-1cbc0a2395b1
     m_ActionName: PlayerControls/Attack(B)[/Keyboard/i,/XInputControllerWindows/buttonSouth]
@@ -2544,14 +2515,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   moveSpeed: 6
-  jumpForce: 5
   onAttacking: 0
   playerPhysics: {fileID: 806296147}
   playerHitbox: {fileID: 417225258}
-  groundCheck: {fileID: 1331855833}
-  groundLayer:
-    serializedVersion: 2
-    m_Bits: 256
   animator: {fileID: 814135842}
 --- !u!1 &811863227
 GameObject:
@@ -2784,7 +2750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99fd2d1b3ab83944993298307bd9ded4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  c: {fileID: 806296151}
+  CharacterControl: {fileID: 806296151}
 --- !u!1 &843123666
 GameObject:
   m_ObjectHideFlags: 0
@@ -3865,36 +3831,6 @@ Transform:
   - {fileID: 1141792933}
   m_Father: {fileID: 811863228}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1331855832
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1331855833}
-  m_Layer: 0
-  m_Name: GroundCheck
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1331855833
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1331855832}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.1, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 806296146}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1678731598
 GameObject:

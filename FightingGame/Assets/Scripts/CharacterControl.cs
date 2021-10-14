@@ -6,12 +6,12 @@ public class CharacterControl : MonoBehaviour
 {
     [Header("Player Properties")]
     [Tooltip("Player's Maximum Health")] [SerializeField] int maxHealth = 100;
+    [Tooltip("Controller Horizontal Value")] [SerializeField] private float horizontal;
     [Tooltip("Player's Move Speed")] [SerializeField] float moveSpeed = 10f;
     public bool onAttacking = false; // We will use this to check if our character is still attacking or not.
 
     [Header("Other Stuff")]
-    [SerializeField] Rigidbody2D playerPhysics;
-    private float horizontal;
+    public Rigidbody2D playerPhysics;
     public GameObject playerHitbox;
     public Animator animator;
     public PlayerInputActions playerInputActions;
@@ -50,16 +50,16 @@ public class CharacterControl : MonoBehaviour
 
     private void Update()
     {
-        HorizontalMovement();
-        Debug.Log("Horizontal Value: " + horizontal);
+        Debug.Log("Controller Horizontal Value: " + horizontal);
+    }
+
+    private void FixedUpdate()
+    {
+        playerPhysics.velocity = new Vector2(horizontal * moveSpeed, playerPhysics.velocity.y);
     }
 
     // -----------------------------------------------------------------------------------------------------//
     // ----------------------------------------------------- MOVEMENT --------------------------------------//
-    private void HorizontalMovement()
-    {
-        playerPhysics.velocity = new Vector2(horizontal * moveSpeed, playerPhysics.velocity.y);
-    }
 
     public void VectorMovement(InputAction.CallbackContext context)
     {
@@ -71,6 +71,7 @@ public class CharacterControl : MonoBehaviour
         if (context.canceled)
         {
             Debug.Log("Stop Running");
+            horizontal = 0f;
             animator.Play("Idle");
         }
     }

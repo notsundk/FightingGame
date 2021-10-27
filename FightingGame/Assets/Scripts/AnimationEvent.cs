@@ -16,20 +16,12 @@ public class AnimationEvent : MonoBehaviour
     public void Activate_AttackHitBox()
     {
         CharacterControl.playerHitbox.SetActive(true);
+        // Lock Movement
     }
 
     public void Deactivate_AttackHitBox()
     {
         CharacterControl.playerHitbox.SetActive(false);
-    }
-
-    public void Lock_Movement() // Lock Controls When Player is not allow to cancel out using movement.
-    {
-
-    }
-
-    public void Unlock_Movement()
-    {
-
+        // Unlock Movement
     }
 }

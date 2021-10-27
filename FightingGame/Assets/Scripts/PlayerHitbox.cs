@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerHitbox : MonoBehaviour
 {
-    [SerializeField] CharacterControl CharacterControl;
+    [SerializeField] CharacterControl CharacterControl; // Reference CharacterControl.cs
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

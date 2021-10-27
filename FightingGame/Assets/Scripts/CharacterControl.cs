@@ -5,22 +5,33 @@ using UnityEngine.InputSystem;
 public class CharacterControl : MonoBehaviour
 {
     [Header("Player Properties")]
-    [Tooltip("Player's Maximum Health")] [SerializeField] int maxHealth = 100;
+    [Tooltip("Maximum Health")] public int maxHealth = 100;
+    [Tooltip("Current Health")] public int currentHealth;
     [Tooltip("Controller Horizontal Value")] [SerializeField] private float horizontal;
-    [Tooltip("Player's Move Speed")] [SerializeField] float moveSpeed = 10f;
+    [Tooltip("Move Speed")] [SerializeField] float moveSpeed = 10f;
     public bool onAttacking = false; // We will use this to check if our character is still attacking or not.
+    public bool onMovement = false;
 
     [Header("Other Stuff")]
     public Rigidbody2D playerPhysics;
     public GameObject playerHitbox;
     public Animator animator;
     public PlayerInputActions playerInputActions;
-    private InputAction movement;
+    public InputAction movement;
+
+    [Header("Other Scripts")]
+    public HealthBar healthBar; // Reference HealthBar.cs
 
     private void Awake()
     {
         playerInputActions = new PlayerInputActions(); // Create new PlayerInputActions
-        playerHitbox.SetActive(false);
+        playerHitbox.SetActive(false); // Making sure the Sword's HitBox is false. (Technically this is a "HurtBox", must have the name wrong.)
+    }
+
+    private void Start()
+    {
+        currentHealth = maxHealth; // Set Current HP to the Max HP amount, which is 100.
+        healthBar.SetMaxHealth(currentHealth); // Set Health Bar to Current HP, which is 100.
     }
 
     // Setting-up Player Input Actions
@@ -85,6 +96,7 @@ public class CharacterControl : MonoBehaviour
             Debug.Log("Do Attack A");
             onAttacking = true;
             animator.Play("Attack1");
+            //TakeDamage(20);
         }
     }
     public void DoAttackB(InputAction.CallbackContext context)
@@ -105,4 +117,11 @@ public class CharacterControl : MonoBehaviour
             animator.Play("Attack3");
         }
     }
+
+    //void TakeDamage(int damage) // For testing UI.
+    //{
+    //    currentHealth -= damage; // Minus Damage from Current HP.
+
+    //    healthBar.SetHealth(currentHealth); // Set Health Bar UI to Current HP.
+    //}
 }

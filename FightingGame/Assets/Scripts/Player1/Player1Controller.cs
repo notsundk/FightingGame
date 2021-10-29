@@ -2,10 +2,10 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CharacterControl : MonoBehaviour
+public class Player1Controller : MonoBehaviour
 {
     [Header("Player Properties")]
-    [Tooltip("Maximum Health")] public int maxHealth = 100;
+    [Tooltip("Maximum Health")] public static int maxHealth = 100;  // Static
     [Tooltip("Current Health")] public int currentHealth;
     [Tooltip("Controller Horizontal Value")] [SerializeField] private float horizontal;
     [Tooltip("Move Speed")] [SerializeField] float moveSpeed = 10f;
@@ -67,6 +67,12 @@ public class CharacterControl : MonoBehaviour
     private void FixedUpdate()
     {
         playerPhysics.velocity = new Vector2(horizontal * moveSpeed, playerPhysics.velocity.y);
+
+        if (currentHealth == 0)
+        {
+            Debug.Log("Player Died");
+            animator.Play("Death");
+        }
     }
 
     // -----------------------------------------------------------------------------------------------------//
@@ -96,7 +102,6 @@ public class CharacterControl : MonoBehaviour
             Debug.Log("Do Attack A");
             onAttacking = true;
             animator.Play("Attack1");
-            //TakeDamage(20);
         }
     }
     public void DoAttackB(InputAction.CallbackContext context)
@@ -118,10 +123,22 @@ public class CharacterControl : MonoBehaviour
         }
     }
 
-    //void TakeDamage(int damage) // For testing UI.
-    //{
-    //    currentHealth -= damage; // Minus Damage from Current HP.
+    // -----------------------------------------------------------------------------------------------------//
+    // ----------------------------------------------------- ATTACK ----------------------------------------//
 
-    //    healthBar.SetHealth(currentHealth); // Set Health Bar UI to Current HP.
-    //}
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy") == true)
+        {
+            Debug.Log("Deal damage to : " + collision.gameObject.name);
+            TakeDamage(20);
+        }
+    }
+
+    void TakeDamage(int damage) // For testing UI.
+    {
+        currentHealth -= damage; // Minus Damage from Current HP.
+
+        healthBar.SetHealth(currentHealth); // Set Health Bar UI to Current HP.
+    }
 }

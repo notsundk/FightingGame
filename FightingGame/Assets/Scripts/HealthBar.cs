@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class HealthBar : MonoBehaviour
 {
-    [SerializeField] CharacterControl CharacterControl; // Reference CharacterControl.cs
-
     public Slider slider;
 
     public void SetMaxHealth(int health)

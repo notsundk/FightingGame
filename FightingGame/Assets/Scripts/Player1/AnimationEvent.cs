@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AnimationEvent : MonoBehaviour
 {
-    [SerializeField] CharacterControl CharacterControl; // Linking Script
+    [SerializeField] CharacterController CharacterControl; // Linking Script
 
     public void End_Attacking() // Return player to the Idle Stage in which they can do "anything". Player can also walk to cancel attacks.
     {
